@@ -1,24 +1,84 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ME8-Tb-yDu">
+    <device id="retina6_72" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="FlowerCalled_" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="430" height="932"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" xcode11CocoaTouchSystemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ob3-vf-sU6">
+                                <rect key="frame" x="0.0" y="103" width="430" height="795"/>
+                            </imageView>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="ob3-vf-sU6" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="JGm-Gk-sze"/>
+                            <constraint firstItem="ob3-vf-sU6" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="JQE-pX-i1Y"/>
+                            <constraint firstItem="ob3-vf-sU6" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="ebP-wZ-OgU"/>
+                            <constraint firstItem="ob3-vf-sU6" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="tlV-pT-tfl"/>
+                        </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="Qo5-lj-sb3">
+                        <centerItemGroups>
+                            <barButtonItemGroup customizationDisposition="fixed" id="RKf-nB-IXm">
+                                <barButtonItems>
+                                    <barButtonItem title="Camera" image="camera.fill" catalog="system" id="pZK-GC-a8F" userLabel="Camera">
+                                        <connections>
+                                            <action selector="cameraSelected:" destination="BYZ-38-t0r" id="L4Z-22-Tta"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem title="Photo library" image="photo.stack" catalog="system" id="3QK-Aj-lnx">
+                                        <connections>
+                                            <action selector="photoLibrarySelected:" destination="BYZ-38-t0r" id="kr6-26-MUs"/>
+                                        </connections>
+                                    </barButtonItem>
+                                </barButtonItems>
+                            </barButtonItemGroup>
+                        </centerItemGroups>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="mainImageView" destination="ob3-vf-sU6" id="Npo-cR-fan"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="976.33587786259534" y="-27.464788732394368"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="I28-vc-VKf">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="ME8-Tb-yDu" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Q9e-hd-WFL">
+                        <rect key="frame" x="0.0" y="59" width="430" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="s70-PD-aWe"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kHk-wd-35X" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="49.618320610687022" y="-27.464788732394368"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="camera.fill" catalog="system" width="128" height="93"/>
+        <image name="photo.stack" catalog="system" width="128" height="122"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
 </document>
