@@ -2,6 +2,7 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ME8-Tb-yDu">
     <device id="retina6_72" orientation="portrait" appearance="light"/>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -36,6 +37,11 @@
                                     <barButtonItem title="Camera" image="camera.fill" catalog="system" id="pZK-GC-a8F" userLabel="Camera">
                                         <connections>
                                             <action selector="cameraSelected:" destination="BYZ-38-t0r" id="L4Z-22-Tta"/>
+                                        </connections>
+                                    </barButtonItem>
+                                    <barButtonItem title="Make request" image="link" catalog="system" id="HXz-bT-ISm">
+                                        <connections>
+                                            <action selector="makeNetworkRequestPressed:" destination="BYZ-38-t0r" id="1af-OO-kvn"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem title="Photo library" image="photo.stack" catalog="system" id="3QK-Aj-lnx">
@@ -76,6 +82,7 @@
     </scenes>
     <resources>
         <image name="camera.fill" catalog="system" width="128" height="93"/>
+        <image name="link" catalog="system" width="128" height="124"/>
         <image name="photo.stack" catalog="system" width="128" height="122"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

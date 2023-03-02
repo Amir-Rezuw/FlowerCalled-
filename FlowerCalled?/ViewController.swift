@@ -9,9 +9,12 @@ import UIKit
 import Vision
 import CoreML
 import PhotosUI
+import Alamofire
+import SwiftyJSON
 
 class ViewController: UIViewController {
-
+    
+    var requestController = RequestController()
     @IBOutlet weak var mainImageView: UIImageView!
     var imagePicker = UIImagePickerController()
     override func viewDidLoad() {
@@ -32,6 +35,7 @@ class ViewController: UIViewController {
             print(result)
             if let firstResult = result.first {
                 self.navigationItem.title = firstResult.identifier
+                self.requestController.requestTitle = firstResult.identifier
             }
         }
         let handler = VNImageRequestHandler(ciImage: photo)
@@ -56,6 +60,10 @@ class ViewController: UIViewController {
     @IBAction func cameraSelected(_ sender: UIBarButtonItem) {
         present(imagePicker, animated: true)
     }
+    
+    @IBAction func makeNetworkRequestPressed(_ sender: UIBarButtonItem) {
+        requestController.makeRequest()
+    }
 }
 
 extension ViewController: PHPickerViewControllerDelegate {
@@ -66,12 +74,16 @@ extension ViewController: PHPickerViewControllerDelegate {
                 guard let selectedImage = reading as? UIImage else {
                     return
                 }
-                if let ciImage = CIImage(image: selectedImage) {
-                    self.detectFlower(ciImage)
-                }
+                
                 DispatchQueue.main.async {
                     self.mainImageView.image = selectedImage
+                    guard let ciImage = CIImage(image: selectedImage) else {
+                        fatalError("Error converting to selected photo from photo library to ci image ")
+                    }
+                    self.detectFlower(ciImage)
                 }
+                
+                
             }
         }
     }
@@ -85,10 +97,11 @@ extension ViewController: UIImagePickerControllerDelegate {
         if let ciImage = CIImage(image: userPickedImage) {
             detectFlower(ciImage)
         }
-        DispatchQueue.main.async {
+        
+        
             self.mainImageView.image = userPickedImage
             self.imagePicker.dismiss(animated: true)
-        }
+        
     }
 }
 
