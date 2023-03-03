@@ -14,7 +14,7 @@ import SwiftyJSON
 
 class ViewController: UIViewController {
     
-    var requestController = RequestController()
+    @IBOutlet weak var flowerDescriptionLabel: UILabel!
     @IBOutlet weak var mainImageView: UIImageView!
     var imagePicker = UIImagePickerController()
     override func viewDidLoad() {
@@ -22,6 +22,70 @@ class ViewController: UIViewController {
         imagePicker.delegate = self
         imagePicker.sourceType = .camera
         imagePicker.allowsEditing = false
+    }
+    
+    @IBAction func photoLibrarySelected(_ sender: UIBarButtonItem) {
+        openPhotoLibraryPicker()
+    }
+    
+    @IBAction func cameraSelected(_ sender: UIBarButtonItem) {
+        present(imagePicker, animated: true)
+    }
+}
+//MARK: -- photo library picker
+extension ViewController: PHPickerViewControllerDelegate {
+    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
+        picker.dismiss(animated: true)
+        results.forEach { result in
+            result.itemProvider.loadObject(ofClass: UIImage.self) { reading, error in
+                guard let selectedImage = reading as? UIImage else {
+                    return
+                }
+                self.changeUIAndConvertToCIImage(selectedImage)
+            }
+        }
+    }
+}
+//MARK: -- Camera picker
+extension ViewController: UIImagePickerControllerDelegate {
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        guard let userPickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
+            fatalError("Error loading photo from camera.")
+        }
+        self.changeUIAndConvertToCIImage(userPickedImage)
+        self.imagePicker.dismiss(animated: true)
+        
+    }
+}
+
+extension ViewController: UINavigationControllerDelegate {
+    
+}
+//MARK: -- Shared Functions
+extension ViewController {
+    func requestInfo (_ requestTitle:String) {
+        
+        var _RequestBaseURL: String {
+            "https://en.wikipedia.org/w/api.php?"
+        }
+        let parameters: [String: String] = [
+            "format":"json",
+            "action": "query",
+            "prop": "extracts",
+            "exintro": "",
+            "explaintext": "",
+            "titles": requestTitle,
+            "indexpageids" : "",
+            "redirects" : "1",
+        ]
+        Alamofire.request(_RequestBaseURL, method: .get, parameters: parameters).responseJSON { res in
+            if res.result.isSuccess {
+                let resultInJson: JSON = JSON(res.result.value!)
+                let pageId = resultInJson["query"]["pageids"][0].stringValue
+                let flowerDescription = resultInJson["query"]["pages"][pageId]["extract"].stringValue
+                self.flowerDescriptionLabel.text = flowerDescription
+            }
+        }
     }
     func detectFlower (_ photo: CIImage) {
         guard let model = try? VNCoreMLModel(for: FlowerClassifier(configuration: MLModelConfiguration()).model) else {
@@ -32,10 +96,10 @@ class ViewController: UIViewController {
             guard let result = requset.results as? [VNClassificationObservation] else {
                 return
             }
-            print(result)
             if let firstResult = result.first {
                 self.navigationItem.title = firstResult.identifier
-                self.requestController.requestTitle = firstResult.identifier
+                self.requestInfo(firstResult.identifier)
+                
             }
         }
         let handler = VNImageRequestHandler(ciImage: photo)
@@ -53,58 +117,13 @@ class ViewController: UIViewController {
         pickerVC.delegate = self
         present(pickerVC, animated: true)
     }
-    @IBAction func photoLibrarySelected(_ sender: UIBarButtonItem) {
-        openPhotoLibraryPicker()
-    }
-    
-    @IBAction func cameraSelected(_ sender: UIBarButtonItem) {
-        present(imagePicker, animated: true)
-    }
-    
-    @IBAction func makeNetworkRequestPressed(_ sender: UIBarButtonItem) {
-        requestController.makeRequest()
-    }
-}
-
-extension ViewController: PHPickerViewControllerDelegate {
-    func picker(_ picker: PHPickerViewController, didFinishPicking results: [PHPickerResult]) {
-        picker.dismiss(animated: true)
-        results.forEach { result in
-            result.itemProvider.loadObject(ofClass: UIImage.self) { reading, error in
-                guard let selectedImage = reading as? UIImage else {
-                    return
-                }
-                
-                DispatchQueue.main.async {
-                    self.mainImageView.image = selectedImage
-                    guard let ciImage = CIImage(image: selectedImage) else {
-                        fatalError("Error converting to selected photo from photo library to ci image ")
-                    }
-                    self.detectFlower(ciImage)
-                }
-                
-                
+    func changeUIAndConvertToCIImage(_ image:UIImage) {
+        DispatchQueue.main.async {
+            self.mainImageView.image = image
+            guard let ciImage = CIImage(image: image) else {
+                fatalError("Error converting to selected photo from photo library to ci image ")
             }
+            self.detectFlower(ciImage)
         }
     }
-}
-
-extension ViewController: UIImagePickerControllerDelegate {
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        guard let userPickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else {
-            fatalError("Error loading photo from camera.")
-        }
-        if let ciImage = CIImage(image: userPickedImage) {
-            detectFlower(ciImage)
-        }
-        
-        
-            self.mainImageView.image = userPickedImage
-            self.imagePicker.dismiss(animated: true)
-        
-    }
-}
-
-extension ViewController: UINavigationControllerDelegate {
-    
 }

@@ -18,16 +18,28 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ob3-vf-sU6">
-                                <rect key="frame" x="0.0" y="103" width="430" height="795"/>
+                                <rect key="frame" x="0.0" y="103" width="430" height="430"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="ob3-vf-sU6" secondAttribute="height" multiplier="1:1" id="yhC-oF-R6o"/>
+                                </constraints>
                             </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="s4Q-T2-tIG">
+                                <rect key="frame" x="20" y="552" width="390" height="346"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="ob3-vf-sU6" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="JGm-Gk-sze"/>
-                            <constraint firstItem="ob3-vf-sU6" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="JQE-pX-i1Y"/>
-                            <constraint firstItem="ob3-vf-sU6" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="ebP-wZ-OgU"/>
-                            <constraint firstItem="ob3-vf-sU6" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="tlV-pT-tfl"/>
+                            <constraint firstItem="s4Q-T2-tIG" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="ATW-da-Eiu"/>
+                            <constraint firstItem="ob3-vf-sU6" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="CJ4-oO-bJa"/>
+                            <constraint firstItem="ob3-vf-sU6" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="GYH-p1-D7T"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="s4Q-T2-tIG" secondAttribute="trailing" constant="20" id="JFy-Op-zCh"/>
+                            <constraint firstItem="ob3-vf-sU6" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="aXK-l0-cJ2"/>
+                            <constraint firstItem="s4Q-T2-tIG" firstAttribute="top" secondItem="ob3-vf-sU6" secondAttribute="bottom" constant="19" id="chb-Tf-4h7"/>
+                            <constraint firstItem="s4Q-T2-tIG" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="vwR-vG-DV3"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Qo5-lj-sb3">
@@ -37,11 +49,6 @@
                                     <barButtonItem title="Camera" image="camera.fill" catalog="system" id="pZK-GC-a8F" userLabel="Camera">
                                         <connections>
                                             <action selector="cameraSelected:" destination="BYZ-38-t0r" id="L4Z-22-Tta"/>
-                                        </connections>
-                                    </barButtonItem>
-                                    <barButtonItem title="Make request" image="link" catalog="system" id="HXz-bT-ISm">
-                                        <connections>
-                                            <action selector="makeNetworkRequestPressed:" destination="BYZ-38-t0r" id="1af-OO-kvn"/>
                                         </connections>
                                     </barButtonItem>
                                     <barButtonItem title="Photo library" image="photo.stack" catalog="system" id="3QK-Aj-lnx">
@@ -54,12 +61,13 @@
                         </centerItemGroups>
                     </navigationItem>
                     <connections>
+                        <outlet property="flowerDescriptionLabel" destination="s4Q-T2-tIG" id="A1z-ap-1E3"/>
                         <outlet property="mainImageView" destination="ob3-vf-sU6" id="Npo-cR-fan"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="976.33587786259534" y="-27.464788732394368"/>
+            <point key="canvasLocation" x="975.34883720930236" y="-27.682403433476395"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="I28-vc-VKf">
@@ -82,7 +90,6 @@
     </scenes>
     <resources>
         <image name="camera.fill" catalog="system" width="128" height="93"/>
-        <image name="link" catalog="system" width="128" height="124"/>
         <image name="photo.stack" catalog="system" width="128" height="122"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
